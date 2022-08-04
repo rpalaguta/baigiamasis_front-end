@@ -1,0 +1,9 @@
+.services {
+    justify-content: space-between;
+}
+
+.services * {
+    font-family: 'Raleway';
+    color: #124265;
+    line-height: 2;
+}

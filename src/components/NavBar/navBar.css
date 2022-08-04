@@ -1,0 +1,73 @@
+.navBar {
+    font-family: 'Open Sans'!important;
+    padding: 0 50px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    color: #436997;
+    position: relative;
+    background-color: white;
+}
+
+.navBar a {
+    text-decoration: none;
+    color: #436997;
+}
+
+.navBar::after {
+    position: absolute;
+    content: '';
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border-bottom: 1px solid #4369976b;
+  }
+  
+  
+.navLinks {
+    display: flex;
+    justify-content: flex-end;
+}
+  
+.pageName, .pageName a {
+    font-family: Poppins;
+    font-weight: 400;
+    
+
+}
+
+.navElement {
+    margin: auto 10px;
+}
+
+.navElement a, .navElement a:visited {
+    text-decoration: none;
+    font-family: 'Open Sans';
+    font-size: 14px;
+    text-align: center;
+    color: #436997;
+}
+
+.navElement a:active {
+    color: #4C9BD7;
+}
+
+#navSelect {
+    text-decoration: none;
+    font-family: 'Open Sans';
+    font-size: 14px;
+    text-align: center;
+    border: none;
+    background: none;
+}
+
+.navSelect {
+    align-self: center;
+}
+
+.Button {
+    padding: 10px 20px;
+    background-color: #2487CE;
+    color: white!important;
+    border-radius: 5px;
+}

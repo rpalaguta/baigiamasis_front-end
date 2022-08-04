@@ -1,23 +1,26 @@
-import logo from './logo.svg';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import routeCollection from './collections/routeCollection';
 import './App.css';
+import Layout from './components/Layout/Layout';
+import NewService from './components/Services/newService';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        <Routes>
+          {
+            <Route path='/' element={<Layout />}>
+              {
+                routeCollection.map((route, id) => (
+                    <Route key={`${id}-routes`} path={route.path} element={route.element} />
+                  ))
+              }
+              <Route path='/new_service' element={<NewService />} />  
+            </Route>
+          }
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
