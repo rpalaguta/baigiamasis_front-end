@@ -2,9 +2,11 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import routeCollection from './collections/routeCollection';
 import './App.css';
 import Layout from './components/Layout/Layout';
-import NewService from './components/Services/newService';
+import ServiceForm from './components/Services/ServiceForm';
+import Login from './components/Auth/Login';
+import ServiceDetails from './components/Services/ServiceDetails';
 
-function App() {
+function App() {  
   return (
     <div className="App">
       <BrowserRouter>
@@ -16,7 +18,10 @@ function App() {
                     <Route key={`${id}-routes`} path={route.path} element={route.element} />
                   ))
               }
-              <Route path='/new_service' element={<NewService />} />  
+              <Route path="/services/add" element={<ServiceForm />} />  
+              <Route path="/services/edit/:serviceId" element={<ServiceForm />} />  
+              <Route path='/login' element={<Login />} />  
+              <Route path="/services/:serviceId" element={<ServiceDetails />} />  
             </Route>
           }
         </Routes>

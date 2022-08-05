@@ -2,6 +2,8 @@ import React from "react";
 import './navBar.css'
 import { Link } from "react-router-dom";
 import routeCollection from "../../collections/routeCollection";
+import userService from "../../services/userService";
+
 
 const NavBar = () => {
     return (
@@ -13,7 +15,10 @@ const NavBar = () => {
                         <div key={`${id}-navigation`} className="navElement"><Link to={route.path}>{route.name}</Link></div>
                     ))
                 }
-                <div className="navElement"><a className="Button" href="#">Log In</a></div>
+                { userService.getLoggedInUser() ? 
+                    <div className="navElement"><a href="/" className="Button" onClick={() => userService.logoutUser()}>Log Out</a></div>
+                     : 
+                    <div className="navElement"><a href="/login" className="Button">Log In</a></div> }
             </div>
         </div>
     )

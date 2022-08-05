@@ -7,3 +7,32 @@
     color: #124265;
     line-height: 2;
 }
+
+.displayNone {
+    display: none!important;
+}
+
+
+.serviceInfo {
+    width: 20%;
+    position: relative;
+    word-wrap: break-word;
+}
+
+.serviceInfo::after {
+    position: absolute;
+    content: '';
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-right: 1px solid #4369976b;
+}
+
+.serviceOverview {
+    flex-direction: row!important;
+}
+
+.serviceDescription {
+    width: 80%;
+    padding-left: 20px;
+}
