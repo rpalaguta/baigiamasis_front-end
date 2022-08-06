@@ -18,10 +18,6 @@ function App() {
                     <Route key={`${id}-routes`} path={route.path} element={route.element} />
                   ))
               }
-              <Route path="/services/add" element={<ServiceForm />} />  
-              <Route path="/services/edit/:serviceId" element={<ServiceForm />} />  
-              <Route path='/login' element={<Login />} />  
-              <Route path="/services/:serviceId" element={<ServiceDetails />} />  
             </Route>
           }
         </Routes>

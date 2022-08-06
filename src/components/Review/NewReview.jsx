@@ -1,29 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import userService from "../../services/userService";
 import httpClient from '../../services/httpClient';
 import formValidation from "../../FormValidation";
 
 
-const NewReview = ({onClose}) => {
+const NewReview = ({onClose, onSubmit}) => {
 
+    const navigate = useNavigate()
     const user = userService.getLoggedInUser()
-    const [responseStatus, setResponseStatus] = useState(0);
     const {serviceId} = useParams()
     const [formErrors, setFormErrors] = useState({})
-    const [isSubmit, setIsSubmit] = useState(false)
     const [formValues, setFormValues] = useState({
         'review': '',
         'service_id': serviceId,
         'author_id' : user.user_id,
         'rating' : '',
     })
-
-    useEffect(() => {
-        if (responseStatus === 200 && isSubmit) {
-            window.location.href = `/services/${serviceId}`
-        }
-    },[responseStatus])
 
     function handleOnChange (event) {
         setFormValues({
@@ -32,13 +25,12 @@ const NewReview = ({onClose}) => {
         })
     }
 
-    function handleSubmit (e) {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setFormErrors(formValidation(formValues, 'review'))
-        setIsSubmit(true);
-        if (Object.keys(formErrors).length === 0 && isSubmit) {
-            httpClient.post(`/review`, formValues)
-            .then(res => setResponseStatus(res.status))
+        if (Object.keys(formErrors).length === 0) {
+            const response = await httpClient.post(`/review`, formValues)
+            response.status === 200 ? onSubmit() && navigate(`/services/${serviceId}`, { replace: true }) : console.log('error');
         }
         
     }

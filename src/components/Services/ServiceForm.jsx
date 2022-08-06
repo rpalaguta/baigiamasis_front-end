@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import formValidation from "../../FormValidation";
 import userService from "../../services/userService";
 import httpClient from '../../services/httpClient';
 
 const ServiceForm = () => {
     const { serviceId } = useParams();
+    const navigate = useNavigate();
     const user = userService.getLoggedInUser()
     const [categories, setCategories] = useState(0)
     const [formErrors, setFormErrors] = useState({})
     const [isSubmit, setIsSubmit] = useState(false)
+    const [redirect, setRedirect] = useState(false);
     const [formValues, setFormValues] = useState({
         'name': '',
         'category_id': 1,
@@ -37,17 +39,24 @@ const ServiceForm = () => {
             }
     },[serviceId])
 
-    useEffect(() => {
-        if (Object.keys(formErrors).length === 0 && isSubmit) {
-            if(!serviceId) {
-                httpClient.post('/service', formValues)
-            } else {
-                httpClient.put(`/service/${serviceId}`, formValues)
+    // useEffect(() => {
+    //     if(redirect) {
+    //         window.location.href = '/services/my-services'
+    //     }
+    // }, [redirect])
+
+    // useEffect(() => {
+    //     if (Object.keys(formErrors).length === 0 && isSubmit) {
+    //         if(!serviceId) {
+    //             httpClient.post('/service', formValues)
+    //                 .then(setRedirect(true))
+    //         } else {
+    //             httpClient.put(`/service/${serviceId}`, formValues)
+    //             .then(setRedirect(true))
+    //         }
                 
-            }
-                
-        }
-    }, [formErrors])
+    //     }
+    // }, [formErrors])
 
     if(!categories) {
         return (
@@ -64,10 +73,19 @@ const ServiceForm = () => {
         })
     }
 
-    function handleSubmit (e) {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setFormErrors(formValidation(formValues, 'service'))
-        setIsSubmit(true);
+        if (Object.keys(formErrors).length === 0) {
+            if(!serviceId) {
+                const response = await httpClient.post('/service', formValues);
+                response.status === 200 ? navigate('/services', { replace: true }) : console.log('error');
+            } else {
+                const response = await httpClient.put(`/service/${serviceId}`, formValues);
+                response.status === 200 ? navigate('/services/my-services', { replace: true }) : console.log('error');
+            }
+                
+        }
     }
 
     return (

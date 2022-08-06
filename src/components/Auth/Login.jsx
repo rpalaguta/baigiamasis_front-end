@@ -1,41 +1,32 @@
 import React, { useState, useEffect } from "react";
 import  httpClient, { setAuthToken } from '../../services/httpClient';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
 
+    const navigate = useNavigate()
     const [formValues, setFormValues] = useState({
         'email': '',
         'password': '',
     })
 
-    const [redirect, setRedirect] = useState(false);
-
-    useEffect(() => {
-        if(redirect) {
-            window.location.href = '/services'
-        }
-    }, [redirect])
-
-    function handleOnChange (event) {
+    const handleOnChange = async (event) => {
         setFormValues({
             ...formValues,
             [event.target.name] : event.target.value
         })
     }
 
-    function handleSubmit (e) {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        httpClient.post('/auth/login', formValues)
-        .then(res => {
-            localStorage.setItem('user', JSON.stringify({
-                user_id: res.data.user_id,
-                name: res.data.name,
-                token: res.data.token,
-            }))
-            setAuthToken(res.data.token);
-            setRedirect(true);
-            })
+        const response = await httpClient.post('/auth/login', formValues)
+        localStorage.setItem('user', JSON.stringify({
+            user_id: response.data.user_id,
+            name: response.data.name,
+            token: response.data.token,
+        }))
+        setAuthToken(response.data.token);
+        navigate('/services', { replace: true })
     }
 
     return (

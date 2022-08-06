@@ -1,12 +1,12 @@
 .navBar {
-    font-family: 'Open Sans'!important;
     padding: 0 50px;
-    display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    width: 100%;
     color: #436997;
-    position: relative;
-    background-color: white;
+    border-bottom: 1px solid #4369976b;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 
 .navBar a {
@@ -14,14 +14,14 @@
     color: #436997;
 }
 
-.navBar::after {
+/* .navBar::after {
     position: absolute;
     content: '';
     left: 0;
     bottom: 0;
     right: 0;
     border-bottom: 1px solid #4369976b;
-  }
+} */
   
   
 .navLinks {

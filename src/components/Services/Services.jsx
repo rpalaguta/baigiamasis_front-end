@@ -42,8 +42,6 @@ const Services = () => {
         }
     }
 
-    console.log(categories)
-
     function renderServices(data) {
         return(
             data.map((service, id) => {
