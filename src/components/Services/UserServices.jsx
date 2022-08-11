@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import httpClient from '../../services/httpClient'
-import userService from '../../services/userService'
 import Service from "./Service";
 
 const UserServices = () => {
+    const user = useSelector((state) => state.user.value);
 
-    const user = userService.getLoggedInUser();
-    // console.log(user)
     const [services, setServices] = useState();
 
     useEffect(() => {
@@ -33,7 +32,14 @@ const UserServices = () => {
     }
 
     return (
-        renderServices(services)
+        <div className="flex flexColumn">
+            <h2 style={{margin: '40px auto'}}>My Services</h2>
+            <div className="serviceCard">
+                {
+                    renderServices(services)
+                }
+            </div>
+        </div>
     )
 }
 

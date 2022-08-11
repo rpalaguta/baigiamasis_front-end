@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import  httpClient, { setAuthToken } from '../../services/httpClient';
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../../features/userSlice";
 
 const Login = () => {
 
     const navigate = useNavigate()
+    const dispatch = useDispatch();
     const [formValues, setFormValues] = useState({
         'email': '',
         'password': '',
@@ -20,13 +23,17 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = await httpClient.post('/auth/login', formValues)
-        localStorage.setItem('user', JSON.stringify({
-            user_id: response.data.user_id,
-            name: response.data.name,
-            token: response.data.token,
-        }))
-        setAuthToken(response.data.token);
-        navigate('/services', { replace: true })
+        if(response) {
+            dispatch(login({
+                user_id: response.data.user_id,
+                name: response.data.name,
+                role: response.data.role.name,
+                token: response.data.token,
+            }))
+            setAuthToken(response.data.token);
+            window.dispatchEvent(new Event("storage"));
+            navigate('/services', { replace: true })
+        }
     }
 
     return (

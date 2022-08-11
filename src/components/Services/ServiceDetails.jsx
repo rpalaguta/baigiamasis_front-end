@@ -1,8 +1,9 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useState, useEffect} from "react";
 import { useParams } from "react-router-dom";
 import httpClient from '../../services/httpClient'
 import NewReview from "../Review/NewReview";
 import Reviews from "../Review/Reviews";
+import { useSelector } from "react-redux";
 
 const ServiceDetails = () => {
     const {serviceId} = useParams()
@@ -10,11 +11,16 @@ const ServiceDetails = () => {
     const [averageRating, setAverageRating] = useState(0)
     const [displayedRating, setDisplayedRating] = useState(0);
     const [isActive, setIsActive] = useState(false);
+    const [reviewed, setReviewed] = useState(false);
+    const user = useSelector((state) => state.user.value);
     const [key, setKey] = useState();
 
     useEffect(() => {
-            httpClient.get(`service/${serviceId}`)
-                .then(res => setService(res.data))
+        const getData = async () => {
+            const response = await httpClient.get(`service/${serviceId}`)
+            setService(response.data)
+        }
+        getData()
     }, [serviceId])
 
     useEffect(() => {
@@ -27,6 +33,18 @@ const ServiceDetails = () => {
                 <p>Loading data...</p>
             </div>
         )
+    }
+    const leaveReviewButton = () => {
+        if(user) {
+            if(!reviewed) {
+                return (
+                    <div className='heroBtn' onClick={() => toggleNewReviewComponent()}>
+                    <p style={{margin: '0'}}>{`${isActive ? "Cancel" : "Leave a review"}`}</p>
+                </div>
+                )
+            }
+            return <p style={{margin: '0'}}>You left review for this service</p>
+        }
     }
 
     const toggleNewReviewComponent = () => {
@@ -44,23 +62,28 @@ const ServiceDetails = () => {
             <h5>{service.author.name}</h5>
             <p>{service.description}</p>
             <p>Average rating: {displayedRating ? displayedRating : 'error'}</p>
-            <div className='heroBtn' onClick={() => toggleNewReviewComponent()}>
-                <p style={{margin: '0'}}>{`${isActive ? "Cancel" : "Leave a review"}`}</p>
-            </div>
+            {leaveReviewButton()}
         </div>
         <div className="flex justifyBetween">
-            <h2 style={{margin: 'auto'}}>Reviews</h2>
+            <h2 style={{margin: '10px auto'}}>Reviews</h2>
             
         </div>
-        <div id='newReview' className={`Card ${isActive ? "" : "displayNone"}`}>
-            <NewReview 
-                onClose={toggleNewReviewComponent} 
-                onSubmit={generateNewKey}
-            />
-        </div>
+        {
+            user ? 
+                <>
+                <div id='newReview' className={`Card ${isActive ? "" : "displayNone"}`}>
+                    <NewReview 
+                        onClose={toggleNewReviewComponent} 
+                        onSubmit={generateNewKey}
+                    />
+                </div>
+                </>
+                : ''
+        }
             <Reviews key={`${key}-reviews`} 
                 serviceId={serviceId} 
                 setAverageRating={setAverageRating}
+                setReviewed={setReviewed}
             />          
         </>
     )

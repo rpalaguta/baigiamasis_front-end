@@ -14,25 +14,33 @@
 
 
 .serviceInfo {
-    width: 20%;
-    position: relative;
-    word-wrap: break-word;
+    justify-content: space-between;
+    height: 100%;
 }
 
-.serviceInfo::after {
-    position: absolute;
-    content: '';
-    right: 0;
-    top: 0;
-    bottom: 0;
-    border-right: 1px solid #4369976b;
+.serviceDetails {
+    border-top: 1px solid black;
+}
+.serviceName{
+    overflow: hidden;
 }
 
-.serviceOverview {
+.flexRow {
     flex-direction: row!important;
 }
 
 .serviceDescription {
     width: 80%;
     padding-left: 20px;
+}
+
+.serviceCard {
+    display: grid!important;
+    grid-gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+}
+
+.contentCard {
+    height: 450px;
+    justify-content: space-between!important;
 }

@@ -1,11 +1,12 @@
 import React, {useState} from "react";
-import userService from "../../services/userService";
+import httpClient from "../../services/httpClient";
 import { Link, useNavigate } from "react-router-dom";
 
 
 const Service = ({service, buttons}) => {
     let navigate = useNavigate();
-    const [isOpen, setIsOpen] = useState(false);
+    // const [isOpen, setIsOpen] = useState(false);
+    const [key, setKey] = useState(0)
     // const STYLE = {
     //     position: 'absolute',
     //     inset: '0',
@@ -18,22 +19,37 @@ const Service = ({service, buttons}) => {
         navigate(`/services/${service.id}`, { replace: true });
     }
 
-    function stopPropagation (e) {
+    const userAction = async (e, action='') => {
         e.stopPropagation();
+        switch (action) {
+            case 'delete':
+                const response = await httpClient.delete(`service/${service.id}`)
+                console.log(response.status)
+                if(response.status === 200) {
+                    setKey(Math.random())
+                }
+                break;
+        
+            default:
+                break;
+        }
     }
 
     return (
-        <div  className="Card expand serviceOverview" onClick={() => handleOnClick()}>
-            <div className="serviceInfo">
-                <h3>{service.name}</h3>
-                <h5>By {service.author.name}</h5>
+        <div key={`${key}-my-services`}  className="Card expand contentCard" onClick={() => handleOnClick()}>
+            <div className="serviceInfo flex flexColumn">
+                <div className="serviceName">
+                    <h3 style={{width: '280px'}}>{service.name}</h3>
+                </div>
+                <h5 className="serviceDetails" style={{width: '280px'}}>By {service.author.name}</h5>
             </div>
-            <div className="serviceDescription">
-                <p>{service.description}</p>
-            </div>
-            <div className="userActions">
+            <div className="userActions flex justifyBetween">
                 {
-                    buttons ? <Link className="heroBtn" onClick={(e) => stopPropagation(e)} to={`/services/edit/${service.id}`}>Edit</Link> : ''
+                    buttons ? 
+                        <><Link className="heroBtn" onClick={(e) => userAction(e)} to={`/services/edit/${service.id}`}>Edit</Link>
+                         <button className="heroBtn btnRed" onClick={(e) => userAction(e, 'delete')}>Delete</button></> : ''
+                        
+
                 }
             </div>
         </div>

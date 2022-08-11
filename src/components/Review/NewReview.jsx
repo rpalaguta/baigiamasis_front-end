@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import userService from "../../services/userService";
 import httpClient from '../../services/httpClient';
 import formValidation from "../../FormValidation";
+import { useSelector } from "react-redux";
 
 
 const NewReview = ({onClose, onSubmit}) => {
 
     const navigate = useNavigate()
-    const user = userService.getLoggedInUser()
+    const user = useSelector((state) => state.user.value);
     const {serviceId} = useParams()
     const [formErrors, setFormErrors] = useState({})
     const [formValues, setFormValues] = useState({

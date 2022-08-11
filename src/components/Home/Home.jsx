@@ -1,11 +1,11 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import userService from "../../services/userService";
 import './home.css'
 
 const Home = () => {
 
-    const user = userService.getLoggedInUser()
+    const user = useSelector((state) => state.user.value);
 
     const renderServiceBtn = () => {
         if(user){

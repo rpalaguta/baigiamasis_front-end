@@ -2,9 +2,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import routeCollection from './collections/routeCollection';
 import './App.css';
 import Layout from './components/Layout/Layout';
-import ServiceForm from './components/Services/ServiceForm';
-import Login from './components/Auth/Login';
-import ServiceDetails from './components/Services/ServiceDetails';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { setUser } from './features/userSlice';
+// import { useEffect, useState } from 'react';
 
 function App() {  
   return (

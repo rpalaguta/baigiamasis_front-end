@@ -1,31 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import formValidation from "../../FormValidation";
-import userService from "../../services/userService";
 import httpClient from '../../services/httpClient';
+import { useSelector } from "react-redux";
 
 const ServiceForm = () => {
     const { serviceId } = useParams();
     const navigate = useNavigate();
-    const user = userService.getLoggedInUser()
+    const user = useSelector((state) => state.user.value);
+
     const [categories, setCategories] = useState(0)
     const [formErrors, setFormErrors] = useState({})
-    const [isSubmit, setIsSubmit] = useState(false)
-    const [redirect, setRedirect] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [formValues, setFormValues] = useState({
         'name': '',
         'category_id': 1,
         'description': '',
-        'user_id': '',
         'author_id' : user.user_id
     })
 
     useEffect(() => {
-        httpClient.get(`/categories`)
-      .then(res => {
-        setCategories(res.data);
-      })
-    }, [])    
+        if(!categories && !isLoading) {
+            setIsLoading(true)
+            httpClient.get(`/categories`)
+          .then(res => {
+            setCategories(res.data);
+          }).then(()=> {setIsLoading(false)})
+
+        }
+    }, [isLoading])
 
     useEffect(() => {
             if(serviceId) {
@@ -38,25 +41,6 @@ const ServiceForm = () => {
                     }))
             }
     },[serviceId])
-
-    // useEffect(() => {
-    //     if(redirect) {
-    //         window.location.href = '/services/my-services'
-    //     }
-    // }, [redirect])
-
-    // useEffect(() => {
-    //     if (Object.keys(formErrors).length === 0 && isSubmit) {
-    //         if(!serviceId) {
-    //             httpClient.post('/service', formValues)
-    //                 .then(setRedirect(true))
-    //         } else {
-    //             httpClient.put(`/service/${serviceId}`, formValues)
-    //             .then(setRedirect(true))
-    //         }
-                
-    //     }
-    // }, [formErrors])
 
     if(!categories) {
         return (
@@ -79,6 +63,7 @@ const ServiceForm = () => {
         if (Object.keys(formErrors).length === 0) {
             if(!serviceId) {
                 const response = await httpClient.post('/service', formValues);
+                console.log(formValues)
                 response.status === 200 ? navigate('/services', { replace: true }) : console.log('error');
             } else {
                 const response = await httpClient.put(`/service/${serviceId}`, formValues);
