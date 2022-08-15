@@ -8,27 +8,42 @@ import { logout } from '../../features/userSlice';
 const NavBar = () => {
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
-
   const renderNavLinks = () => {
-    return user
-      ? routeCollection.map((route, id) =>
-          route.navBar !== 'none' && route.navBar !== 'guest' ? (
-            <div key={`${id}-navigation`} className="navElement">
-              <Link to={route.path}>{route.name}</Link>
-            </div>
-          ) : (
-            ''
-          )
+    if (user && user.role === 'Admin') {
+      return routeCollection.map((route, id) =>
+        route.navBar !== 'none' && route.navBar !== 'guest' ? (
+          <div key={`${id}-navigation`} className="navElement">
+            <Link to={route.path}>{route.name}</Link>
+          </div>
+        ) : (
+          ''
         )
-      : routeCollection.map((route, id) =>
-          route.navBar === 'guest' || route.navBar === 'all' ? (
-            <div key={`${id}-navigation`} className="navElement">
-              <Link to={route.path}>{route.name}</Link>
-            </div>
-          ) : (
-            ''
-          )
-        );
+      );
+    } else if (user && user.role !== 'Admin') {
+      return routeCollection.map((route, id) =>
+        route.navBar !== 'none' && route.navBar !== 'guest' && route.navBar !== 'Admin' ? (
+          <div key={`${id}-navigation`} className="navElement">
+            <Link to={route.path}>{route.name}</Link>
+          </div>
+        ) : (
+          ''
+        )
+      );
+    }
+    return routeCollection.map((route, id) =>
+      route.navBar === 'guest' || route.navBar === 'all' ? (
+        <div key={`${id}-navigation`} className="navElement">
+          <Link to={route.path}>{route.name}</Link>
+        </div>
+      ) : (
+        ''
+      )
+    );
+  };
+
+  const handleLogOut = () => {
+    localStorage.removeItem('token');
+    dispatch(logout);
   };
 
   return (
@@ -42,7 +57,7 @@ const NavBar = () => {
         {renderNavLinks()}
         {!!user ? (
           <div className="navElement">
-            <a href="/" className="Button" onClick={() => dispatch(logout)}>
+            <a href="/" className="Button" onClick={() => handleLogOut()}>
               Log Out
             </a>
           </div>

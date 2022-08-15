@@ -12,9 +12,11 @@ function App() {
   const user = useSelector((state) => state.user.value);
   const routes = useMemo(() => {
     return routeCollection.filter((route) => {
-      if (!user && (route.role === 'guest' || route.role === 'all')) {
+      if (user && user.role === 'Admin' && route.role !== 'guest') {
         return true;
-      } else if (user && route.role !== 'guest') {
+      } else if (!user && (route.role === 'guest' || route.role === 'all')) {
+        return true;
+      } else if (user && route.role !== 'guest' && route.role !== 'Admin') {
         return true;
       }
     });
