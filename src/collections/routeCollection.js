@@ -1,3 +1,4 @@
+import AdminPanel from '../components/Admin/AdminPanel';
 import Register from '../components/Auth/createUser';
 import Login from '../components/Auth/Login';
 import Home from '../components/Home/Home';
@@ -39,15 +40,15 @@ const routeCollection = [
     path: '/services/add',
     element: <ServiceForm />,
     name: 'New Service',
-    navBar: 'user',
-    role: 'user',
+    navBar: 'User',
+    role: 'User',
   },
   {
     path: '/services/edit/:serviceId',
     element: <ServiceForm />,
     name: 'Edit Service',
     navBar: 'none',
-    role: 'user',
+    role: 'User',
   },
   {
     path: '/services/:serviceId',
@@ -60,9 +61,23 @@ const routeCollection = [
     path: '/services/my-services',
     element: <UserServices />,
     name: 'My Services',
-    navBar: 'user',
-    role: 'user',
+    navBar: 'User',
+    role: 'User',
+  },
+  {
+    path: '/admin',
+    element: <AdminPanel />,
+    name: 'Admin Panel',
+    navBar: 'Admin',
+    role: 'Admin',
+  },
+  {
+    path: '*',
+    element: <Home />,
+    name: 'Default path',
+    navBar: 'none',
+    role: 'all',
   },
 ];
-
+// <Route path="*" element={<HomePage />}
 export default routeCollection;

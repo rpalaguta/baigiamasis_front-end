@@ -37,13 +37,11 @@
 }
 
 .expand:hover {
-  transform: scale(1.02)
+  transform: scale(1.02);
 }
 
 .flex {
   display: flex;
-  /* text-align: center; */
-  /* justify-content: space-between; */
 }
 
 .justifyBetween {
@@ -51,11 +49,10 @@
 }
 
 .btnRed {
-  background-color: rgb(185, 0, 0)!important;
+  background-color: rgb(185, 0, 0) !important;
   border: none;
 }
 
 .flexColumn {
   flex-direction: column;
 }
-

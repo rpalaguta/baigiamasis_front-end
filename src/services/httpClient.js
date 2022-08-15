@@ -13,7 +13,6 @@ axios.interceptors.request.use((config) => {
 });
 
 export const setAuthToken = (token) => {
-  console.log({ token });
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 };
 
