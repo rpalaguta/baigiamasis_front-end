@@ -75,12 +75,12 @@ const ServiceForm = () => {
     if (Object.keys(formErrors).length === 0) {
       if (!serviceId) {
         const response = await httpClient.post('/service', formValues);
-        response.status === 200 ? navigate('/services', { replace: true }) : console.log('error');
+        response.status === 200 ? navigate('/services', { replace: true }) : console.log('request error');
       } else {
         const response = await httpClient.put(`/service/${serviceId}`, formValues);
         response.status === 200
           ? navigate('/services/my-services', { replace: true })
-          : console.log('error');
+          : console.log('request error');
       }
     }
   };

@@ -11,7 +11,6 @@ const AdminReviews = ({ generateNewKey }) => {
     const response = await httpClient.get('review');
     setReviews(response.data);
   };
-  console.log(reviews);
   useEffect(() => {
     getReviews();
   }, []);

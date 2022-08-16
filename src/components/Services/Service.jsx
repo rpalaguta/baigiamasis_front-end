@@ -23,7 +23,6 @@ const Service = ({ service, buttons }) => {
     switch (action) {
       case 'delete':
         const response = await httpClient.delete(`service/${service.id}`);
-        console.log(response.status);
         if (response.status === 200) {
           setKey(Math.random());
         }

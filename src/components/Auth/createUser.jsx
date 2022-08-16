@@ -24,9 +24,7 @@ const Register = () => {
     }, [redirect])
 
     useEffect(() => {
-        console.log(formErrors)
         if (Object.keys(formErrors).length === 0 && isSubmit) {
-            console.log(formValues)
         }
     }, [formErrors])
 
