@@ -1,12 +1,12 @@
-This is Front end part of my project for CodeAcademy.\
-To get this project going in your machine you first neeto to run command 'npm install', then 'npm start'.\
+This is Front end part of my project for CodeAcademy.
+To get this project going in your machine you first neeto to run command 'npm install', then 'npm start'.
 
 
 ## Notable features
--Using redux to store user data.\
--User token is stored in LocalStorage.\
--On refresh function is run that checks if(!user && token) if its true it calls to back end endpoint to get user data, then stores it into redux 'dispatch(login)'.\
--On user delete (softDelete), user's services and reviews are soft deleted aswell.\
+-Using redux to store user data.
+-User token is stored in LocalStorage.
+-On refresh function is run that checks if(!user && token) if its true it calls to back end endpoint to get user data, then stores it into redux 'dispatch(login)'.
+-On user delete (softDelete), user's services and reviews are soft deleted aswell.
 -
 
 ## Available Scripts
