@@ -1,5 +1,5 @@
 This is Front end part of my project for CodeAcademy.\
-To get this project going in your machine you first neeto to run command 'npm install', then 'npm start'.
+To get this project going in your machine you first need to to run command 'npm install', then 'npm start'.
 
 
 ## Notable features
